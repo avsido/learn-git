@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Socket.IO Chat</title>
+  <style>
+    body { font: 13px Arial, sans-serif; }
+    #messages { list-style-type: none; margin: 0; padding: 0; }
+    #messages li { padding: 8px; margin-bottom: 10px; border-bottom: 1px solid #ddd; }
+    #form { background: rgba(0, 0, 0, 0.05); padding: 3px; position: fixed; bottom: 0; width: 100%; }
+    #input { border: none; padding: 10px; width: 90%; margin-right: .5%; }
+    #input:focus { outline: none; }
+    #sendButton { width: 9%; background: #007BFF; border: none; padding: 10px; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <ul id="messages"></ul>
+  <form id="form" action="">
+    <input id="input" autocomplete="off" /><button id="sendButton">Send</button>
+  </form>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io();
+
+    const form = document.getElementById('form');
+    const input = document.getElementById('input');
+    const messages = document.getElementById('messages');
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      if (input.value) {
+        const message = input.value;
+        socket.emit('chat message', message);
+        input.value = '';
+      }
+    });
+
+    socket.on('chat message', function(msg, senderId) {
+      const messagePrefix = senderId === socket.id ? 'you: ' : 'opponent: ';
+      appendMessage(`${messagePrefix}${msg}`);
+    });
+
+    function appendMessage(message) {
+      const item = document.createElement('li');
+      item.textContent = message;
+      messages.appendChild(item);
+      window.scrollTo(0, document.body.scrollHeight);
+    }
+  </script>
+</body>
+</html>

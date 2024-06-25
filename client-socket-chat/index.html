@@ -30,7 +30,7 @@
       e.preventDefault();
       if (input.value) {
         const message = input.value;
-        socket.emit('chat-message', message);
+        socket.emit('chat-msg', message);
         input.value = '';
       }
     });

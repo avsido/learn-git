@@ -32,7 +32,7 @@ io.on("connection", (socket) => {
   socket.on("chat message", (msg) => {
     console.log("message: " + msg);
 
-    io.emit("chat message", msg, socket.id); // Broadcast the message to all clients with sender's ID
+    io.emit("chat-message", msg, socket.id); // Broadcast the message to all clients with sender's ID
   });
 });
 

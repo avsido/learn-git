@@ -29,7 +29,7 @@ io.on("connection", (socket) => {
     console.log("user disconnected:", socket.id);
   });
 
-  socket.on("chat message", (msg) => {
+  socket.on("chat msg", (msg) => {
     console.log("message: " + msg);
 
     io.emit("chat-message", msg, socket.id); // Broadcast the message to all clients with sender's ID
